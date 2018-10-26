@@ -1,0 +1,65 @@
+<!--
+  Generated template for the CartPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>cart</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div text-center *ngIf="!list.length">
+    <img src="http://localhost/ajia_code/img/404/404_img2.png" alt="">
+    <h3>购物车是空的</h3>
+    <button ion-button color="secondary" block (click)="jumpToIndex()">逛逛去</button>
+  </div>
+  <ion-list *ngIf="list.length>0">
+
+    <ion-item-sliding *ngFor="let tmp of list,let myindex=index">
+      <ion-item >
+        <ion-checkbox item-start [(ngModel)]="tmp.isSelected" (ngModelChange)="isSelectedone(myindex)"></ion-checkbox>
+        <ion-thumbnail item-end>
+          <ion-grid>
+            <ion-row align-items-center>
+              <ion-col>
+                <img [src]="'http://localhost/ajia_code/'+tmp.pic" alt="">
+              </ion-col>
+              <ion-col>
+                <p>{{tmp.title}}</p>
+                <p style="color:red">{{tmp.price|currency:'CNY'}}</p>
+                <button ion-button clear (click)="modifyCount(false,myindex)">-</button>
+                <span>{{tmp.count}}</span>
+                <button ion-button clear (click)="modifyCount(true,myindex)">+</button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item-options style="height:30px;" >
+        <button ion-button color="danger"  (click)="delete(myindex)">删除</button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>
+<ion-footer>
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col col-1>
+        <ion-checkbox [(ngModel)]="isAllSelect" (ngModelChange)="selectAll()"></ion-checkbox>
+      </ion-col>
+      <ion-col>
+        全选 合计{{calcAll()|currency:'CNY'}}
+      </ion-col>
+      <ion-col col-3>
+        <button ion-button color="danger" (click)="jumpToOC()">去结算</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
